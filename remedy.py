@@ -20,9 +20,9 @@ class Remedy:
         st.dataframe(df)
 
         st.subheader("Result Reformating Data")
-        st.dataframe(df['sid'])
+        st.dataframe(df['Sid'])
 
-        csv = df['sid'].to_csv(index=False, header=None)
+        csv = df['Sid'].to_csv(index=False, header=None)
 
         # Create a download button
         st.download_button(
