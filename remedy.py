@@ -328,6 +328,8 @@ TSEL/Q02805/Djoh/8/30/2024-reward_indomog-data750mb""")
         )
 
     def wholeshale_inject(uploaded_file):
+        import zipfile
+        import io
 
         st.subheader("Instruction")
         st.image('./instructions/Wholesale Special Quota - Inject MPV.png')
@@ -346,11 +348,31 @@ TSEL/Q02805/Djoh/8/30/2024-reward_indomog-data750mb""")
 
                     df_tiket = df.iloc[:, 3] # index col 3 adalah kolom tiket
                     st.write(f"Jumlah Tiket ada : **{len(df_tiket.unique())} tiket**")
-                    # st.text(df_tiket.unique())
-                    # st.dataframe(df)
 
-                    for i in df_tiket.unique().tolist():
-                        df_x = df[df.iloc[:, 3] == i]
-                        df_x = df_x.iloc[:, [2, 1]] # select index col 2 (Product ID) dan 1 (Serial Number)
-                        df_x.to_csv(f"./output/reinject_{name}_{i}_{date_now}.txt", header=None, sep="|", index=False)
-                        st.success(f"file Output : **reinject_{name}_{i}_{date_now}.txt**, jumlah Baris **{df_x.shape[0]}**")
+
+                    # Create a zip file in memory
+                    zip_buffer = io.BytesIO()
+                    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+
+                        for i in df_tiket.unique().tolist():
+                            df_x = df[df.iloc[:, 3] == i]
+                            df_x = df_x.iloc[:, [2, 1]] # select index col 2 (Product ID) dan 1 (Serial Number)
+
+                            # Function to convert DataFrame to CSV
+                            @st.cache_data
+                            def convert_df(df):
+                                # df.to_csv(f"./output/reinject_{name}_{i}_{date_now}.txt", header=None, sep="|", index=False)
+                                st.success(f"file Output : **reinject_{name}_{i}_{date_now}.txt**, jumlah Baris **{df_x.shape[0]}**")
+                                return df.to_csv(header=None, sep="|", index=False).encode('utf-8')
+
+                            # Convert DataFrame to CSV
+                            csv = convert_df(df_x)
+                            zip_file.writestr(f'reinject_{name}_{i}_{date_now}.txt', csv)
+
+                # Download button
+                st.download_button(
+                    label=f"Download Data Sheet {name} as zip",
+                    data=zip_buffer.getvalue(),
+                    file_name=f'reinject_{name}_{date_now}.zip',
+                    mime='application/zip'
+                )
