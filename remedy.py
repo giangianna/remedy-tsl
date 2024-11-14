@@ -71,7 +71,7 @@ class Remedy:
     def malena_check_bucket_by_user():
         st.warning("""No Nodin is needed. Just Input the username in the user input field on the menu. 
                An email with a snapshot of the remaining bucket for that specific username will be sent by AO.""")
-        st.image('./SampleRemedy/Malena - Check Bucket Reward by User GiTA Reward_2.png')
+        st.image('./instructions/Malena - Check Bucket Reward by User GiTA Reward_2.png')
     
     def malena_check_bucket_reward():
         st.warning("""No Nodin is needed. Submit without inputting any values, and an email with the remaining bucket snapshot for all users will be sent by AO.""")
