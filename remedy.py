@@ -344,6 +344,8 @@ TSEL/Q02805/Djoh/8/30/2024-reward_indomog-data750mb""")
                 with pd.ExcelFile(uploaded_file) as xls:
                     df = pd.read_excel(xls, sheet_name=name)
 
+                    df['BID'] = df['BID'].astype(str).str.zfill(8)
+
                     st.write(f"Sheet Name -> **{name}**, Jumlah Baris **{df.shape[0]}**")
 
                     df_tiket = df.iloc[:, 3] # index col 3 adalah kolom tiket
