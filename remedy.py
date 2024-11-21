@@ -369,12 +369,12 @@ TSEL/Q02805/Djoh/8/30/2024-reward_indomog-data750mb""")
 
                             # Convert DataFrame to CSV
                             csv = convert_df(df_x)
-                            zip_file.writestr(f'reinject_{name}_{i}_{date_now}.txt', csv)
+                            zip_file.writestr(f'inject_{name}_{i}_{date_now}.txt', csv)
 
                 # Download button
                 st.download_button(
                     label=f"Download Data Sheet {name} as zip",
                     data=zip_buffer.getvalue(),
-                    file_name=f'reinject_{name}_{date_now}.zip',
+                    file_name=f'inject_{name}_{date_now}.zip',
                     mime='application/zip'
                 )
